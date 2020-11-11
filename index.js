@@ -1,43 +1,14 @@
 // Dependancy imports
 const { ApolloServer } = require('apollo-server');
-const gql = require('graphql-tag');
 // mongoose object relational mapper, which lets you interface with the mongoDB database.
 const mongoose = require('mongoose');
 
 // Relative imports
-const Post = require('./models/Post');
-const { MONGODB } = require('./config.js');
-
-// Type Definitions with tag template string. Return queries is better to have an exclamtion mark
-// for type safety, although it is not required.
-const typeDefs = gql`
-    type Post{
-        id: ID!
-        body: String!
-        username: String!
-        createdAt: String!
-    }
-
-    type Query{
-        getPosts: [Post]
-    }
-`
+const typeDefs = require('./graphql/typeDefs');
 // For each query or mutation or subscription, there is a corresponding resolver. Each resolver 
 // processes logic and returns what the query returns.
-const resolvers = {
-    Query: {
-        // Uses post model to fetch the posts. Add try catch block so if query fails, it doesn't stop the
-        // server. Async operation to fetch all posts because there is no condition in find().
-        async getPosts() {
-            try{
-                const posts = await Post.find();
-                return posts;
-            } catch(err) {
-                throw new Error(err);
-            }
-        }
-    }
-}
+const resolvers = require('./graphql/resolvers');
+const { MONGODB } = require('./config.js');
 
 // set up Apollo server
 const server = new ApolloServer({
