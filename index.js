@@ -47,7 +47,7 @@ const server = new ApolloServer({
 
 // connect to MongoDB database and pass useNewUrlParser and useUnifiedTopology to stop deprecation 
 // warning, which returns a promise where you start the server, specifying a port that returns a 
-// promise with a result object. test
+// promise with a result object.
 mongoose
     .connect(MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
