@@ -3,7 +3,7 @@ const { AuthenticationError } = require('apollo-server');
 const jwt = require('jsonwebtoken'); // Used to decode web token we receive
 const { SECRET_KEY } = require('../config'); // Needed to verify tokens, as it was used to encode 
 
-// function that takes the context and do the following...
+// function that takes the context and does the following...
 module.exports = (context) => {
     // context = { ... headers } context will have an object with many things but need the headers for authorisation
     const authHeader = context.req.headers.authorization;
@@ -13,6 +13,7 @@ module.exports = (context) => {
         // Token is in the second index of the split().
         const token = authHeader.split('Bearer ')[1];
         if(token) {
+            // if there is a token, use jsonwebtoken to verify that the token matches with the secret key
             try {
                 const user = jwt.verify(token, SECRET_KEY);
                 return user;

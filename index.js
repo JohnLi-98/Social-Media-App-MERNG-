@@ -10,7 +10,9 @@ const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 const { MONGODB } = require('./config.js');
 
-// set up Apollo server
+// set up Apollo server, context takes a callback, which gets anything that was passed before the 
+// apollo server. You get the request and response from express. Destructure the request and forward 
+// it to the context, where you can access the request body.
 const server = new ApolloServer({
     typeDefs,
     resolvers,
