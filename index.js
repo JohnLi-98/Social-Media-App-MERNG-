@@ -13,7 +13,8 @@ const { MONGODB } = require('./config.js');
 // set up Apollo server
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({ req }) => ({ req })
 });
 
 // connect to MongoDB database and pass useNewUrlParser and useUnifiedTopology to stop deprecation 
