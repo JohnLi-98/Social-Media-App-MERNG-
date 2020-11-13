@@ -39,6 +39,10 @@ module.exports = {
             const user = checkAuth(context);
             console.log(user);
 
+            if (body.trim() === '') {
+                throw new Error('Post body must not be empty');
+            }
+
             // If the following code runs, there was no errors with authorising a user
             const newPost = new Post({
                 body,
