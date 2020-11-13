@@ -1,5 +1,5 @@
 // Dependancy imports
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer, PubSub } = require('apollo-server');
 // mongoose object relational mapper, which lets you interface with the mongoDB database.
 const mongoose = require('mongoose');
 
@@ -10,13 +10,16 @@ const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 const { MONGODB } = require('./config.js');
 
+// Instantiate and pass to context, so it can be used in the resolvers
+const pubsub = new PubSub();
+
 // set up Apollo server, context takes a callback, which gets anything that was passed before the 
 // apollo server. You get the request and response from express. Destructure the request and forward 
 // it to the context, where you can access the request body.
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => ({ req })
+    context: ({ req }) => ({ req, pubsub })
 });
 
 // connect to MongoDB database and pass useNewUrlParser and useUnifiedTopology to stop deprecation 

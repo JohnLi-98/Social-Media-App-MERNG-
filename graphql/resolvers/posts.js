@@ -1,4 +1,4 @@
-const { AuthenticationError } = require('apollo-server');
+const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const Post = require('../../models/Post');
 const checkAuth = require('../../utils/checkAuth');
@@ -50,6 +50,12 @@ module.exports = {
             // save the post
             const post = await newPost.save();
 
+            // Used for subscription function. Publishes the new post to the trigger name 'NEW_POST', so 
+            // subscribers of this are notified.
+            context.pubsub.publish('NEW_POST', {
+                newPost: post
+            });
+
             return post;
         },
 
@@ -72,6 +78,42 @@ module.exports = {
                 throw new Error(err);
             }
             
+        },
+
+        likePost: async (_, { postId }, context) => {
+            const { username } = checkAuth(context);
+    
+            const post = await Post.findById(postId);
+            if(post) {
+                if(post.likes.find(like => like.username === username)) {
+                    // Post already liked, unlike post
+                    // Uses filter to get rid of the like from the array where a like has username that
+                    // matches with authenricated user.
+                    post.likes = post.likes.filter(like => like.username !== username);
+                } else {
+                    // Not liked, like post
+                    post.likes.push({
+                    username,
+                    createdAt: new Date().toISOString()
+                    });
+                }
+                await post.save();
+                return post;
+            } else {
+                throw new UserInputError('Post not found');
+            }
+            
+        }
+    },
+
+    // Not implemented on the front end. This is for when a new post is posted, but if the app is quite large, this would
+    // not be implemented, as it would be too much traffic and bandwidth. Usually used for polling and chat apps.
+    // Uses web sockets in the background to actively listen to the NEW_POST event, and each time a post is published, the
+    // client is informed.
+    Subscription: {
+        // No parent or arguments. For received event types, it is conventional to use all caps.
+        newPost: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('NEW_POST')
         }
     }
 };
