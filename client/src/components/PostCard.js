@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 function PostCard({
-    post: { body, createdAt, id, username, likeCount, commentCount, likes, comments }
+    post: { body, createdAt, id, username, likeCount, commentCount, likes }
 }) {
 
     function likePost() {
@@ -19,9 +19,9 @@ function PostCard({
         <Card fluid>
             <Card.Content>
                 <Image
-                    floated='right'
-                    size='mini'
-                    src='https://react.semantic-ui.com/images/avatar/large/molly.png'
+                    floated="right"
+                    size="mini"
+                    src="https://react.semantic-ui.com/images/avatar/large/molly.png"
                 />
                 <Card.Header>{username}</Card.Header>
                 <Card.Meta as={Link} to={`/post/${id}`}>{moment(createdAt).fromNow(true)}</Card.Meta>
@@ -29,20 +29,20 @@ function PostCard({
             </Card.Content>
 
             <Card.Content extra>
-                <Button as='div' labelPosition='right' onClick={likePost}>
-                    <Button color='teal' basic>
-                        <Icon name='heart' />
+                <Button as="div" labelPosition="right" onClick={likePost}>
+                    <Button color="teal" basic>
+                        <Icon name="heart" />
                     </Button>
-                    <Label basic color='teal' pointing='left'>
+                    <Label basic color="teal" pointing="left">
                         {likeCount}
                     </Label>
                 </Button>
 
-                <Button as='div' labelPosition='right' onClick={commentOnPost}>
-                    <Button color='blue' basic>
-                        <Icon name='comments' />
+                <Button as="div" labelPosition="right" onClick={commentOnPost}>
+                    <Button color="blue" basic>
+                        <Icon name="comments" />
                     </Button>
-                    <Label basic color='blue' pointing='left'>
+                    <Label basic color="blue" pointing="left">
                         {commentCount}
                     </Label>
                 </Button>
