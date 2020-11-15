@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 
+import { AuthContext } from '../context/auth';
 import { useForm } from '../util/hooks';
 
 function Login(props) {
+    // context holds a user object, login and logout function
+    const context = useContext(AuthContext);
     // If there is any errors during the registeration, they are set into errors. Default state is an 
     // empty object.
     const [errors, setErrors] = useState({})
@@ -21,7 +24,9 @@ function Login(props) {
     const [loginUser, { loading }] = useMutation(LOGIN_USER, {
         // update() is triggered if the mutation is successfully executed. Gets the proxy (meta data - rarely used
         // and omitted and replaced with an underscore instead) and the result of the mutation.
-        update(_, result) {
+        update(_, { data: { login: userData}}) {
+            //console.log(result.data.login);
+            context.login(userData)
             props.history.push('/');
         },
         // If there was an error, the object that holds all the errors from the server side will be set into the
