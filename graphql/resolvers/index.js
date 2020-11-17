@@ -7,7 +7,6 @@ module.exports = {
     // modifier and apply the modifications for the counters.
     Post: {
         likeCount: (parent) => {
-            console.log(parent);
             return parent.likes.length;
         },
         commentCount: (parent) => parent.comments.length

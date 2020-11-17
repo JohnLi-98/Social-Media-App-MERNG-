@@ -1,4 +1,3 @@
-import { ValuesOfCorrectTypeRule } from 'graphql';
 import React from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import gql from 'graphql-tag';
@@ -32,6 +31,9 @@ function PostForm() {
                 }
             });
             values.body = '';
+        },
+        onError(err) {
+            // Added so unhandled rejection (error) would not show
         }
     })
 
@@ -40,6 +42,7 @@ function PostForm() {
     }
 
     return (
+        <>
         <Form onSubmit={onSubmit}>
             <h2>Create a post:</h2>
             <Form.Field>
@@ -48,6 +51,7 @@ function PostForm() {
                     name="body"
                     onChange={onChange}
                     value={values.body}
+                    error={error ? true : false}
                 />
 
                 <Button type="submit" color="teal">
@@ -55,7 +59,16 @@ function PostForm() {
                 </Button>
             </Form.Field>
         </Form>
-    )
+
+        {error && (
+            <div className="ui error message" style={{marginBottom: "20px"}}>
+                <ul className="list">
+                    <li>{error.graphQLErrors[0].message}</li>
+                </ul>
+            </div>
+        )}
+        </>
+    );
 }
 
 const CREATE_POST_MUTATION = gql`

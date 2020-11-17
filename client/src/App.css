@@ -9,3 +9,9 @@
   width: 400px;
   margin: auto;
 }
+
+/* Overrides the focused colour of the buttons (Like Button)  */
+.ui.teal.button:focus,
+.ui.teal.buttons .button:focus {
+  background-color: #00b5ad;
+}
