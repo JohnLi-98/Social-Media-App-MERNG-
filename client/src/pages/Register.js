@@ -3,11 +3,11 @@ import { Button, Form } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 
-import { AuthContext, AuthProvider } from '../context/auth';
+import { AuthContext } from '../context/auth';
 import { useForm } from '../util/hooks';
 
 function Register(props) {
-    const context = useContext(AuthProvider);
+    const context = useContext(AuthContext);
     // If there is any errors during the registeration, they are set into errors. Default state is an 
     // empty object.
     const [errors, setErrors] = useState({})
