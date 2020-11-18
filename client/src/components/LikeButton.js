@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {  Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
-import { Button, Icon, Label } from 'semantic-ui-react';
+import { Button, Icon, Label, Popup } from 'semantic-ui-react';
+
+import MyPopup from '../util/MyPopup';
 
 // The like button should be outlined if there is no user logged in, as well as when a user
 // has not previously liked. Only filled in if the logged in user has already liked the post.
@@ -50,7 +52,10 @@ function LikeButton({ user, post: { id, likes, likeCount } }) {
     
     return (
         <Button as="div" labelPosition="right" onClick={likePost}>
-            {likeButton}
+            <MyPopup content={liked ? 'Unlike' : 'Like'}>
+                {likeButton}
+            </MyPopup>
+            
             <Label basic color="teal" pointing="left">
                 {likeCount}
             </Label>
