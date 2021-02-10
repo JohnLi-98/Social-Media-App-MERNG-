@@ -4,7 +4,7 @@ A single page application that is similar to Twitter. It allows you to create po
 
 ## Motivation
 
-This project uses the MERNG stack, which was of interest to me because both the backend and frontend could be with just JavaScript. I had not used this stack before and this project allowed to learn more about it.
+This project uses the MERNG stack, which was of interest to me because both the backend and frontend could be done with just the JavaScript language. I had not used this stack before and was unfamiliar with it but this project allowed me to learn more about it.
 
 ## Technologies/Frameworks Used
 
